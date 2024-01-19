@@ -1,0 +1,31 @@
+﻿@model List<produkto.Models.User>
+
+@{
+    ViewData["Title"] = "User List";
+}
+
+<h2>User List</h2>
+
+<table class="table">
+    <thead>
+        <tr>
+            <th>ID</th>
+            <th>Email</th>
+            <th>Name</th>
+            <th>Password</th>
+            <th>Date Created</th>
+        </tr>
+    </thead>
+    <tbody>
+        @foreach (var user in Model)
+        {
+                <tr>
+                    <td>@user.UserID</td>
+                    <td>@user.Email</td>
+                    <td>@user.Name</td>
+                    <td>@user.Password</td>
+                    <td>@user.DatetimeCreated.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                </tr>
+        }
+    </tbody>
+</table>
