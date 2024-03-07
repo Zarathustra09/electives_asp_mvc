@@ -6,9 +6,11 @@
 
 <h2>User List</h2>
 
-
+  <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
     
-</table>
+
     <div class="card-body">
                 <div class="table-responsive">
                         <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
@@ -18,6 +20,7 @@
                                         <th>Email</th>
                                         <th>Name</th>
                                         <th>Date Created</th>
+                                        <th>Actions</th>
                                     </tr>
                                 </thead>
                                 <tbody>
@@ -27,7 +30,26 @@
                                                     <td>@user.UserID</td>
                                                     <td>@user.Email</td>
                                                     <td>@user.Name</td>
-                                                    <td>@user.DatetimeCreated.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                                        <td>@user.DatetimeCreated.ToString("MMMM dd, yyyy")</td>
+                                                        <td>
+                                                                 
+
+                                                          
+                                                                   <a asp-action="Edit" asp-route-id="@user.UserID" class="btn btn-warning btn-icon-split">
+                                                                        <span class="icon text-white-50">
+                                                                                <i class="fas fa-pencil-alt"></i>
+
+                                                                        </span>
+                                                                      
+                                                                    </a>
+                                                            
+                                                                 <a asp-action="Delete" asp-route-id="@user.UserID"class="btn btn-danger btn-icon-split">
+                                                                        <span class="icon text-white-50">
+                                                                            <i class="fas fa-trash"></i>
+                                                                        </span>                                                              
+                                                                    </a>
+                                                          
+                                                        </td>
                                                 </tr>
                                             }
                                             </tbody>

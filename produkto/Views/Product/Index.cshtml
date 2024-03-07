@@ -37,8 +37,19 @@
                                                             <td>@product.description</td>
                                                                   <td>@product.quantity</td>
                                                             <td>
-                                                                <a asp-action="Edit" asp-route-id="@product.idproducts">Edit</a> |
-                                                                <a asp-action="Delete" asp-route-id="@product.idproducts">Delete</a>
+                                                                          <a asp-action="Edit" asp-route-id="@product.idproducts" class="btn btn-warning btn-icon-split">
+                                                                            <span class="icon text-white-50">
+                                                                                    <i class="fas fa-pencil-alt"></i>
+
+                                                                            </span>
+
+                                                                        </a>
+
+                                                                             <a asp-action="Delete" asp-route-id="@product.idproducts"class="btn btn-danger btn-icon-split">
+                                                                            <span class="icon text-white-50">
+                                                                                <i class="fas fa-trash"></i>
+                                                                            </span>                                                              
+                                                                        </a>
                                                             </td>
                                                         </tr>
                                                     }
