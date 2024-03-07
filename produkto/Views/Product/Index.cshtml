@@ -4,30 +4,39 @@
     ViewBag.Title = "Product List";
 }
 
-<h2>Product List</h2>
-
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Product Name</th>
-            <th>Category</th>
-            <th>Price</th>
-            <th>Date Added</th>
-            <th>Description</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var product in Model)
-        {
+<div class="container">
+    <h2>Product List</h2>
+    <p>
+        <a asp-action="Create" class="btn btn-primary">Create New</a>
+    </p>
+    <table class="table">
+        <thead>
             <tr>
-                    <td>@product.idproducts</td>
-                    <td>@product.productname</td>
-                    <td>@product.category</td>
-                    <td>@product.price.ToString("C")</td>
-                <td>@product.datetimeadded.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                    <td>@product.description</td>
+                <th>ID</th>
+                <th>Product Name</th>
+                <th>Category</th>
+                <th>Price</th>
+                <th>Date Added</th>
+                <th>Description</th>
+                <th>Action</th>
             </tr>
-        }
-    </tbody>
-</table>
+        </thead>
+        <tbody>
+            @foreach (var product in Model)
+            {
+                    <tr>
+                        <td>@product.idproducts</td>
+                        <td>@product.productname</td>
+                        <td>@product.category</td>
+                        <td>@product.price.ToString("C")</td>
+                        <td>@product.datetimeadded.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                        <td>@product.description</td>
+                        <td>
+                            <a asp-action="Edit" asp-route-id="@product.idproducts">Edit</a> |
+                            <a asp-action="Delete" asp-route-id="@product.idproducts">Delete</a>
+                        </td>
+                    </tr>
+            }
+        </tbody>
+    </table>
+</div>
