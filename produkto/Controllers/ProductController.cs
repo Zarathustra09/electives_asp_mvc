@@ -35,12 +35,14 @@ namespace produkto.Controllers
         {
             if (ModelState.IsValid)
             {
+                product.datetimeadded = DateTime.Now; // Set current date and time
                 _context.Add(product);
                 await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
             return View(product);
         }
+
 
         // GET: Product/Edit/5
         public async Task<IActionResult> Edit(int? id)

@@ -12,6 +12,8 @@ namespace produkto.Models
         public double price { get; set; }
         public DateTime datetimeadded { get; set; }
         public string description { get; set; }
+
+        public int quantity { get; set; }
     }
 
 }

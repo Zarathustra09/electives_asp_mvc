@@ -6,24 +6,32 @@
 
 <h2>User List</h2>
 
-<table class="table">
-    <thead>
-        <tr>
-            <th>ID</th>
-            <th>Email</th>
-            <th>Name</th>
-            <th>Date Created</th>
-        </tr>
-    </thead>
-    <tbody>
-        @foreach (var user in Model)
-        {
-                <tr>
-                    <td>@user.UserID</td>
-                    <td>@user.Email</td>
-                    <td>@user.Name</td>
-                    <td>@user.DatetimeCreated.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                </tr>
-        }
-    </tbody>
+
+    
 </table>
+    <div class="card-body">
+                <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                        <thead>
+                                    <tr>
+                                        <th>ID</th>
+                                        <th>Email</th>
+                                        <th>Name</th>
+                                        <th>Date Created</th>
+                                    </tr>
+                                </thead>
+                                <tbody>
+                                            @foreach (var user in Model)
+                                            {
+                                                <tr>
+                                                    <td>@user.UserID</td>
+                                                    <td>@user.Email</td>
+                                                    <td>@user.Name</td>
+                                                    <td>@user.DatetimeCreated.ToString("yyyy-MM-dd HH:mm:ss")</td>
+                                                </tr>
+                                            }
+                                            </tbody>
+                                    </table>
+                </div>
+            </div>   
+
