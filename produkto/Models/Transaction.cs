@@ -8,10 +8,14 @@ namespace produkto.Models
         [Key]
         public int TransactionId { get; set; }
 
+        [Required]
         public int ProductId { get; set; }
-        public virtual Product Product { get; set; }
 
+        [Required]
         public int Quantity { get; set; }
+
+        // Remove [Required] attribute to allow manual insertion
+        public string? ProductName { get; set; }
 
         public DateTime TransactionDate { get; set; }
     }

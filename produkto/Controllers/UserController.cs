@@ -1,7 +1,6 @@
 ﻿using Microsoft.AspNetCore.Mvc;
 using produkto.Models;
 using System.Collections.Generic;
-using produkto.Models; // Adjust the namespace
 using produkto.DataConnection;
 using Microsoft.EntityFrameworkCore;
 public class UsersController : Controller

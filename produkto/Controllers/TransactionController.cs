@@ -1,5 +1,4 @@
-﻿using System;
-using System.Linq;
+﻿using System.Linq;
 using System.Threading.Tasks;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Rendering;
@@ -18,79 +17,66 @@ namespace produkto.Controllers
             _context = context;
         }
 
-        // GET: Transaction
+        // GET: Transaction/Index
         public async Task<IActionResult> Index()
         {
-            var transactions = await _context.Transaction
-                .Include(t => t.Product)
-                .ToListAsync();
+            var transactions = await _context.Transaction.ToListAsync();
             return View(transactions);
         }
 
-   
         public IActionResult Create()
         {
-            // Fetch the list of products from the database
+            // Fetch list of products from the database
             var products = _context.Products.ToList();
 
-            // Convert the list of products to a list of SelectListItem objects
-            var productListItems = products.Select(p => new SelectListItem
-            {
-                Value = p.idproducts.ToString(),
-                Text = p.productname
-            }).ToList();
+            // Create a SelectList using product id and product name
+            var productList = new SelectList(products, "idproducts", "productname");
 
-            // Pass the list of SelectListItem objects to the view
-            ViewBag.Products = productListItems;
+            // Set ViewBag.Products with the SelectList
+            ViewBag.Products = productList;
 
+            // Return the view
             return View();
         }
+
         // POST: Transaction/Create
         [HttpPost]
         [ValidateAntiForgeryToken]
-        public IActionResult Create(Transaction transaction)
+        public async Task<IActionResult> Create([Bind("TransactionId,ProductId,Quantity,TransactionDate")] Transaction transaction)
         {
             if (ModelState.IsValid)
             {
-                // Add the transaction to the database
-                _context.Transaction.Add(transaction);
-                _context.SaveChanges();
+                // Retrieve the selected product from the database
+                var selectedProduct = await _context.Products.FindAsync(transaction.ProductId);
+
+                // Set the ProductName property of the transaction
+                transaction.ProductName = selectedProduct?.productname;
+
+                // Deduct the quantity from the product
+                if (selectedProduct != null && selectedProduct.quantity >= transaction.Quantity)
+                {
+                    selectedProduct.quantity -= transaction.Quantity;
+                    _context.Products.Update(selectedProduct);
+                    await _context.SaveChangesAsync();
+                }
+                else
+                {
+                    // Handle insufficient quantity error
+                    ModelState.AddModelError(string.Empty, "Insufficient quantity.");
+                    ViewBag.Products = new SelectList(_context.Products, "idproducts", "productname", transaction.ProductId);
+                    return View(transaction);
+                }
+
+                // Add the transaction to the context and save changes
+                _context.Add(transaction);
+                await _context.SaveChangesAsync();
                 return RedirectToAction(nameof(Index));
             }
 
-            // If the model state is not valid, return to the create view with validation errors
+            // If model state is invalid, reload the products list and return the view with validation errors
+            ViewBag.Products = new SelectList(_context.Products, "idproducts", "productname", transaction.ProductId);
             return View(transaction);
         }
 
-        // GET: Transaction/Delete/5
-        public async Task<IActionResult> Delete(int? id)
-        {
-            if (id == null)
-            {
-                return NotFound();
-            }
-
-            var transaction = await _context.Transaction
-                .Include(t => t.Product)
-                .FirstOrDefaultAsync(m => m.TransactionId == id);
-
-            if (transaction == null)
-            {
-                return NotFound();
-            }
-
-            return View(transaction);
-        }
-
-        // POST: Transaction/Delete/5
-        [HttpPost, ActionName("Delete")]
-        [ValidateAntiForgeryToken]
-        public async Task<IActionResult> DeleteConfirmed(int id)
-        {
-            var transaction = await _context.Transaction.FindAsync(id);
-            _context.Transaction.Remove(transaction);
-            await _context.SaveChangesAsync();
-            return RedirectToAction(nameof(Index));
-        }
     }
 }
