@@ -10,6 +10,8 @@ namespace produkto.DataConnection
 
         public DbSet<User> Users { get; set; }
 
+        public DbSet<Transaction> Transaction { get; set; }
+
         public MySqlDbContext(DbContextOptions<MySqlDbContext> options) : base(options) { }
     }
 }

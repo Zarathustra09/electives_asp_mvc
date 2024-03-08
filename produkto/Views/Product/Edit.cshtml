@@ -13,9 +13,14 @@
         <input asp-for="productname" class="form-control" />
         <span asp-validation-for="productname" class="text-danger"></span>
     </div>
-    <div class="form-group">
+<div class="form-group">
         <label asp-for="category" class="control-label"></label>
-        <input asp-for="category" class="form-control" />
+        <select asp-for="category" class="form-control">
+            <option value="School Supplies">School Supplies</option>
+                     <option value="Laptop">Laptop</option>
+                              <option value="Smartphone">Smartphone</option>
+                                       <option value="Peripherals">Peripherals</option>
+        </select>
         <span asp-validation-for="category" class="text-danger"></span>
     </div>
     <div class="form-group">
