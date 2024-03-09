@@ -9,33 +9,43 @@
 <p>
     <a asp-action="Create" class="btn btn-primary">Create New Transaction</a>
 </p>
+<div class="card-body">
+                <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                            <thead>
+                                                    <tr>
+                                                        <th>Transaction ID</th>
+                                                        <th>Product Name</th>
+                                                        <th>Quantity</th>
+                                                        <th>Transaction Date</th>
+                                                        <th>Actions</th>
+                                                    </tr>
+                                                </thead>
+                                                <tbody>
+                                                        @foreach (var transaction in Model)
+                                                        {
+                                                                <tr>
+                                                                    <td>@transaction.TransactionId</td>
+                                                                    <td>@transaction.ProductName</td>
+                                                                    <td>@transaction.Quantity</td>
+                                                                    <td>@transaction.TransactionDate.ToString("MMMM dd, yyyy")</td>
+                                                                    <td>
+                                                                          <a asp-action="Edit" asp-route-id="@transaction.TransactionId" class="btn btn-warning btn-icon-split">
+                                                                                    <span class="icon text-white-50">
+                                                                                          <i class="fas fa-pencil-alt"></i>
 
-<div class="table-responsive">
-    <table class="table table-striped">
-        <thead>
-            <tr>
-                <th>Transaction ID</th>
-                <th>Product Name</th>
-                <th>Quantity</th>
-                <th>Transaction Date</th>
-                <th>Actions</th>
-            </tr>
-        </thead>
-        <tbody>
-            @foreach (var transaction in Model)
-            {
-                    <tr>
-                        <td>@transaction.TransactionId</td>
-                        <td>@transaction.ProductName</td>
-                        <td>@transaction.Quantity</td>
-                        <td>@transaction.TransactionDate.ToString("yyyy-MM-dd HH:mm:ss")</td>
-                        <td>
-                            <a asp-action="Edit" asp-route-id="@transaction.TransactionId">Edit</a> |
-                            <a asp-action="Details" asp-route-id="@transaction.TransactionId">Details</a> |
-                            <a asp-action="Delete" asp-route-id="@transaction.TransactionId">Delete</a>
-                        </td>
-                    </tr>
-            }
-        </tbody>
-    </table>
-</div>
+                                                                                       </span>
+                                                                                 </a>
+
+                                                                                     <a asp-action="Delete" asp-route-id="@transaction.TransactionId"class="btn btn-danger btn-icon-split">
+                                                                                   <span class="icon text-white-50">
+                                                                                <i class="fas fa-trash"></i>
+                                                                            </span>                                                              
+                                                                        </a>
+                                                                    </td>
+                                                                </tr>
+                                                        }
+                                                </tbody> 
+                       </table>
+                </div>
+            </div>   

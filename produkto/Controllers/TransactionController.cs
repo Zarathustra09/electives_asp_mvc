@@ -78,5 +78,111 @@ namespace produkto.Controllers
             return View(transaction);
         }
 
+        // GET: Transaction/Edit/5
+        public async Task<IActionResult> Edit(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var transaction = await _context.Transaction.FindAsync(id);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+
+            return View(transaction);
+        }
+
+        // POST: Transaction/Edit/5
+        [HttpPost]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> Edit(int id, [Bind("TransactionId,ProductId,Quantity")] Transaction transaction)
+        {
+            if (id != transaction.TransactionId)
+            {
+                return NotFound();
+            }
+
+            if (ModelState.IsValid)
+            {
+                
+                    // Retrieve the original transaction
+                    var originalTransaction = await _context.Transaction.FindAsync(id);
+
+                    // Calculate the quantity difference for refund
+                    int quantityDifference = originalTransaction.Quantity - transaction.Quantity;
+
+                    // Update the transaction quantity
+                    originalTransaction.Quantity = transaction.Quantity;
+
+                    // Update the product quantity for refund
+                    var product = await _context.Products.FindAsync(originalTransaction.ProductId);
+                    if (product != null)
+                    {
+                        product.quantity += quantityDifference;
+                        await _context.SaveChangesAsync();
+                    }
+
+                    // Save changes to the database
+                    await _context.SaveChangesAsync();
+                
+               
+                return RedirectToAction(nameof(Index));
+            }
+
+            return View(transaction);
+        }
+
+        // GET: Transaction/Delete/5
+        public async Task<IActionResult> Delete(int? id)
+        {
+            if (id == null)
+            {
+                return NotFound();
+            }
+
+            var transaction = await _context.Transaction
+                .FirstOrDefaultAsync(m => m.TransactionId == id);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+
+            return View(transaction);
+        }
+
+        // POST: Transaction/Delete/5
+        [HttpPost, ActionName("Delete")]
+        [ValidateAntiForgeryToken]
+        public async Task<IActionResult> DeleteConfirmed(int id)
+        {
+            var transaction = await _context.Transaction.FindAsync(id);
+            if (transaction == null)
+            {
+                return NotFound();
+            }
+
+           
+                // Retrieve the corresponding product
+                var product = await _context.Products.FindAsync(transaction.ProductId);
+                if (product != null)
+                {
+                    // Add the quantity back to the product
+                    product.quantity += transaction.Quantity;
+                }
+
+                // Remove the transaction from the database
+                _context.Transaction.Remove(transaction);
+                await _context.SaveChangesAsync();
+       
+
+            return RedirectToAction(nameof(Index));
+        }
+
+
+
+
     }
 }
