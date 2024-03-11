@@ -12,6 +12,8 @@ namespace produkto.DataConnection
 
         public DbSet<Transaction> Transaction { get; set; }
 
+        public DbSet<TransactionLog> TransactionLogs { get; set; }
+
         public MySqlDbContext(DbContextOptions<MySqlDbContext> options) : base(options) { }
     }
 }

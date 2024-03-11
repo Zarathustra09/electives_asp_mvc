@@ -1,0 +1,38 @@
+﻿@model IEnumerable<produkto.Models.TransactionLog>
+
+@{
+    ViewData["Title"] = "Transaction Logs";
+}
+
+<h1>Transaction Logs</h1>
+
+
+
+<div class="card-body">
+                <div class="table-responsive">
+                        <table class="table table-bordered" id="dataTable" width="100%" cellspacing="0">
+                                   <thead>
+                                            <tr>
+                                                <th>Transaction ID</th>
+                                                <th>Product ID</th>
+                                                <th>Product Name</th>
+                                                <th>Quantity</th>
+                                                <th>Transaction Date</th>
+                                            </tr>
+                                        </thead>
+                                        <tbody>
+                                    @foreach (var transaction in Model)
+                                    {
+                                                                            <tr>
+                                                                                <td>@transaction.TransactionId</td>
+                                                                                <td>@transaction.ProductId</td>
+                                                                                <td>@transaction.ProductName</td>
+                                                                                <td>@transaction.Quantity</td>
+                                                                                    <td>@transaction.TransactionDate.ToString("MMMM dd, yyyy")</td>
+                                                                            </tr>
+                                    }
+                                                            </tbody>   
+                                        
+                                          </table>
+                </div>
+            </div>   

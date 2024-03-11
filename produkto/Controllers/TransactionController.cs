@@ -70,6 +70,18 @@ namespace produkto.Controllers
                 // Add the transaction to the context and save changes
                 _context.Add(transaction);
                 await _context.SaveChangesAsync();
+
+                // Insert record into TransactionLog
+                var transactionLog = new TransactionLog
+                {
+                    ProductId = transaction.ProductId,
+                    ProductName = transaction.ProductName,
+                    Quantity = transaction.Quantity,
+                    TransactionDate = transaction.TransactionDate
+                };
+                _context.TransactionLogs.Add(transactionLog);
+                await _context.SaveChangesAsync();
+
                 return RedirectToAction(nameof(Index));
             }
 
